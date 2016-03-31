@@ -72,4 +72,33 @@ describe('createReducer', function() {
     expect(spy).toNotHaveBeenCalled()
   });
 
+  describe('flattening', function() {
+
+    it('returns the correct state on the first call with a match', function() {
+      var reducerMap = {
+        YOLO: {
+          SQUIRREL: function() {
+            return 'iamnotafish';
+          }
+        }
+      };
+      var reducer = createReducer('theintialstate', reducerMap);
+      expect(reducer(undefined, {type: 'YOLO_SQUIRREL'})).toEqual('iamnotafish');
+    });
+
+    it('returns a new state if a nested value matched', function() {
+      var reducerMap = {
+        YOLO: {
+          BEAR: function() {
+            return {someObj: 42};
+          }
+        }
+      };
+      var reducer = createReducer({someObj: 1}, reducerMap);
+      var state = reducer(undefined, {});
+      expect(reducer(state, {type: 'YOLO_BAR'})).toEqual({someObj: 42});
+    });
+
+  });
+
 });

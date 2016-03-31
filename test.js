@@ -9,7 +9,7 @@ describe('createReducer', function() {
     expect(reducer(undefined, {type: 'YOLO'})).toEqual('theintialstate');
   });
 
-  it('returns the correct state on the first call with a matche', function() {
+  it('returns the correct state on the first call with a match', function() {
     var reducerMap = {
       YOLO: function() {
         return 'theproperstate';

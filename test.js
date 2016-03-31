@@ -96,7 +96,45 @@ describe('createReducer', function() {
       };
       var reducer = createReducer({someObj: 1}, reducerMap);
       var state = reducer(undefined, {});
-      expect(reducer(state, {type: 'YOLO_BAR'})).toEqual({someObj: 42});
+      expect(reducer(state, {type: 'YOLO_BEAR'})).toEqual({someObj: 42});
+    });
+
+    it('warns about undefined action type names, but keeps them intact', function() {
+      var MUFFIN = undefined;
+      var reducerMap = {
+        YOLO: {
+          [MUFFIN]: function() {
+            return 'theproperstate';
+          }
+        }
+      };
+      var spy = expect.spyOn(console, 'warn')
+      var reducer = createReducer({}, reducerMap);
+      spy.restore();
+      expect(spy).toHaveBeenCalled();
+      expect(reducer(undefined, {type: 'undefined'})).toEqual('theproperstate');
+    });
+
+    it('does not warn about undefined action type names if not in development mode', function() {
+      var NODE_ENV = process.env.NODE_ENV;
+      process.env.NODE_ENV = 'production';
+      delete require.cache[require.resolve('./')];
+
+      var createReducer = require('./').createReducer;
+
+      var COOKIE = undefined;
+      var reducerMap = {
+        YOLO: {
+          [COOKIE]: function() {
+            return 'theproperstate';
+          }
+        }
+      };
+      var spy = expect.spyOn(console, 'warn')
+      var reducer = createReducer({}, reducerMap);
+      process.env.NODE_ENV = NODE_ENV;
+      spy.restore();
+      expect(spy).toNotHaveBeenCalled();
     });
 
   });

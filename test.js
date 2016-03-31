@@ -103,11 +103,13 @@ describe('createReducer', function() {
       var MUFFIN = undefined;
       var reducerMap = {
         YOLO: {
-          [MUFFIN]: function() {
-            return 'theproperstate';
-          }
         }
       };
+
+      reducerMap.YOLO[MUFFIN] = function() {
+        return 'theproperstate';
+      };
+
       var spy = expect.spyOn(console, 'warn')
       var reducer = createReducer({}, reducerMap);
       spy.restore();

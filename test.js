@@ -112,7 +112,7 @@ describe('createReducer', function() {
       var reducer = createReducer({}, reducerMap);
       spy.restore();
       expect(spy).toHaveBeenCalled();
-      expect(reducer(undefined, {type: 'undefined'})).toEqual('theproperstate');
+      expect(reducer(undefined, {type: 'YOLO_undefined'})).toEqual('theproperstate');
     });
 
     it('does not warn about undefined action type names if not in development mode', function() {

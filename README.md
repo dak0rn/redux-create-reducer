@@ -25,6 +25,41 @@ export const todos = createReducer(initialState, {
 })
 ```
 
+It is also possible to provide an object with nested reducer names which will be
+flattened by concating them with an underscore.
+
+```js
+import { createReducer } from 'redux-create-reducer';
+import * as ActionTypes from '../constants/ActionTypes';
+
+const initialState = [];
+
+
+export const todos = createReducer(initialState, {
+  [ActionTypes.ADD_TODO]: {
+    PENDING(state, action) {
+      // ...
+    },
+
+    FULFILLED(state, action) {
+      // ...
+    },
+
+    REJECTED(state, action) {
+      // ...
+    }
+  }
+})
+
+/* Same as
+{
+  [ActionTypes.ADD_TODO + '_PENDING']() {},
+  [ActionTypes.ADD_TODO + '_REJECTED']() {},
+  [ActionTypes.ADD_TODO + '_FULFILLED']() {}
+}
+*/
+```
+
 
 
 [npm-image]: https://img.shields.io/npm/v/redux-create-reducer.svg?style=flat-square
